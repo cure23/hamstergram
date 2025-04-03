@@ -1,5 +1,6 @@
 let users = [];
 let posts = [];
+const contentElement = document.getElementById("content");
 
 async function loadData() {
   const userResponse = await fetch("data/users.json"); //dont need to create variable, just for clarification
@@ -24,16 +25,45 @@ function createPostElement(post, user) {
   postElement.classList.add("post");
 
   const headerElement = document.createElement("div");
-  headerElement.class.add("padding", "header");
+  headerElement.classList.add("padding", "header");
   postElement.appendChild(headerElement);
 
   const profileImage = document.createElement("img");
-  profileImage.src = user.profile - image;
+  profileImage.classList.add("profile-image");
+  profileImage.src = user.profile_image;
   headerElement.appendChild(profileImage);
+
+  const userNameElement = document.createElement("h4");
+  userNameElement.classList.add("padding");
+  userNameElement.innerText = user.name;
+  headerElement.appendChild(userNameElement);
 
   const imageElement = document.createElement("img");
   imageElement.src = post.image;
   postElement.appendChild(imageElement);
+
+  const infoElement = document.createElement("div");
+  infoElement.classList.add("padding");
+  postElement.appendChild(infoElement);
+
+  const likeButtonElement = document.createElement("button");
+  likeButtonElement.innerText = post.liked_by_user ? "❤️" : "🤍"; //if statement in one line
+  likeButtonElement.classList.add("margin-right", "like-button");
+  likeButtonElement.addEventListener("click", () => {
+    post.liked_by_user = !post.liked_by_user; //when clicked make the bool opposite
+    // renderContent();
+
+    // const updatedPost = createPostElement(post, user);
+    // postElement.parentNode.insertBefore(updatedPost, postElement);
+    // postElement.remove();
+
+    likeButtonElement.innerText = post.liked_by_user ? "❤️" : "🤍";
+  });
+  infoElement.appendChild(likeButtonElement);
+
+  const textElement = document.createElement("span");
+  textElement.innerText = `${post.likes} likes`; // It's used to reference a variable within string (opt + \ = `)
+  infoElement.appendChild(textElement);
 
   return postElement;
 }
