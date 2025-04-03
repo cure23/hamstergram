@@ -50,6 +50,7 @@ function createPostElement(post, user) {
   likeButtonElement.innerText = post.liked_by_user ? "❤️" : "🤍"; //if statement in one line
   likeButtonElement.classList.add("margin-right", "like-button");
   likeButtonElement.addEventListener("click", () => {
+    post.liked_by_user ? (post.likes -= 1) : (post.likes += 1);
     post.liked_by_user = !post.liked_by_user; //when clicked make the bool opposite
     // renderContent();
 
@@ -58,6 +59,7 @@ function createPostElement(post, user) {
     // postElement.remove();
 
     likeButtonElement.innerText = post.liked_by_user ? "❤️" : "🤍";
+    textElement.innerText = `${post.likes} likes`;
   });
   infoElement.appendChild(likeButtonElement);
 
